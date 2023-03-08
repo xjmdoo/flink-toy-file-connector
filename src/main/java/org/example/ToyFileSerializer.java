@@ -22,7 +22,8 @@ public class ToyFileSerializer implements SerializationSchema<RowData> {
         for (int i = 0; i < parsingTypes.size(); i++) {
             cols.add(parse(i, parsingTypes.get(i).getTypeRoot(), element));
         }
-        return String.join(",", cols).getBytes();
+        String rowString = String.join(",", cols) + System.lineSeparator();
+        return rowString.getBytes();
     }
 
     private String parse(int pos, LogicalTypeRoot root, RowData element) {

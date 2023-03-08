@@ -9,8 +9,6 @@ import org.apache.flink.table.data.RowData;
 import org.apache.flink.table.types.DataType;
 import org.apache.flink.types.RowKind;
 
-import java.io.File;
-
 public class ToyFileDynamicTableSink implements DynamicTableSink {
     private final String path;
     private final DataType producesDataType;
@@ -34,7 +32,7 @@ public class ToyFileDynamicTableSink implements DynamicTableSink {
     @Override
     public SinkRuntimeProvider getSinkRuntimeProvider(Context context) {
         final SerializationSchema<RowData> serializer = new ToyFileSerializer(producesDataType.getLogicalType().getChildren());
-        final SinkFunction<RowData> sinkFunction = new ToyFileSinkFunction(new File(path, "db.txt").toString(), serializer);
+        final SinkFunction<RowData> sinkFunction = new ToyFileSinkFunction(path, serializer);
         return SinkFunctionProvider.of(sinkFunction, 1);
     }
 
